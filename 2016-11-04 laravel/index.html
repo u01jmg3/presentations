@@ -1,0 +1,764 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Laravel &middot; Developer Day 4 Nov '16</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <style>
+            .reveal li    { font-size: .9em }
+            .reveal li li { font-size: .8em }
+
+            .reveal li:not(:last-child){ margin-bottom: 8px }
+
+            .reveal section img {
+                border: none;
+                box-shadow: none;
+            }
+
+            /* Theme */
+
+            ::selection {
+                color: rgb(39, 40, 34);
+                background: rgb(244, 100, 95);
+            }
+
+            .reveal a:not(.external):not(.close) {
+                color: rgb(244, 100, 95);
+                border-bottom: 1px dashed rgb(244, 100, 95);
+            }
+
+            .reveal a:hover {
+                color: rgb(39, 40, 34);
+                border-bottom: 1px dashed rgb(39, 40, 34);
+            }
+
+            .reveal .slide-number {
+                color: rgb(244, 100, 95);
+                background-color: rgb(39, 40, 34);
+            }
+
+            .reveal .progress span { background: rgb(244, 100, 95) }
+
+            .reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
+                border-right-color: rgb(244, 100, 95);
+            }
+
+            .reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled {
+                border-left-color: rgb(244, 100, 95);
+            }
+
+            .reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled {
+                border-bottom-color: rgb(244, 100, 95);
+            }
+
+            .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
+                border-top-color: rgb(244, 100, 95);
+            }
+
+            .reveal .controls .navigate-left.enabled,
+            .reveal .controls .navigate-right.enabled,
+            .reveal .controls .navigate-up.enabled,
+            .reveal .controls .navigate-down.enabled { opacity: .6 }
+
+                /* onHover */
+
+                .reveal .controls .navigate-left.enabled:hover {
+                    border-right-color: rgb(244, 100, 95);
+                    opacity: 1;
+                }
+
+                .reveal .controls .navigate-right.enabled:hover {
+                    border-left-color: rgb(244, 100, 95);
+                    opacity: 1;
+                }
+
+                .reveal .controls .navigate-up.enabled:hover {
+                    border-bottom-color: rgb(244, 100, 95);
+                    opacity: 1;
+                }
+
+                .reveal .controls .navigate-down.enabled:hover {
+                    border-top-color: rgb(244, 100, 95);
+                    opacity: 1;
+                }
+
+            .reveal .controls div { opacity: 0.15 }
+
+            .reveal .viewport iframe { background: #fff }
+
+            .reveal .navigate-down.enabled {
+                animation: pulsate 1s ease-out;
+                animation-iteration-count: infinite;
+                animation-delay: 1s;
+                transition: all 1s ease-out;
+            }
+            @keyframes pulsate {
+                0%   { margin-top: -6px; opacity: 0; }
+                50%  { margin-top: 0;    opacity: 1; }
+                100% { margin-top: -2px; opacity: 0; }
+            }
+
+            .reveal .slides section .fragment.highlight-red.visible,
+            .reveal .slides section .fragment.highlight-red.current-fragment,
+            .reveal .slides section .fragment.highlight-current-red.current-fragment { color: rgb(244, 100, 95) }
+
+            /* Code Highlighting */
+
+            .reveal pre { width: 100% }
+
+            .reveal pre code {
+                padding: 30px;
+                max-height: 520px;
+            }
+
+            .reveal code {
+                color: rgb(244, 100, 95);
+                background-color: rgba(244, 100, 95, .1);
+                padding-left: 2px;
+                padding-right: 2px;
+                max-height: 500px;
+            }
+
+            .hljs-name,
+            .hljs-title    { color: #ff5b4c }
+            .hljs-keyword,
+            .hljs-literal,
+            .hljs-type     { color: #d6b855 }
+            .hljs-attribute,
+            .hljs-tag,
+            .hljs-variable { color: #dbb06a }
+        </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <section data-markdown>
+                    <script type="text/template">
+                        # Why Laravel?
+
+                        _&#8220;The PHP Framework For Web Artisans&#8221;_
+
+                        ![Laravel logo](http://imgur.com/5h2UMxQ.png "Laravel logo")
+
+                        Introduction to Laravel
+
+                        <small>Jonathan Goode</small>
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## History Behind the Vision
+
+                        - [Taylor Otwell](https://github.com/taylorotwell), <!-- .element: target="_blank" --> a .NET developer in Arkansas (USA), was using an early version of CodeIgniter when the idea for Laravel came to him.
+                        - &#8220;_I couldn't add all the features I wanted to_&#8221;, he says, &#8220;_without mangling the internal code of the framework_&#8221;.
+                        - He wanted something <span>leaner</span>, <!-- .element: class="fragment highlight-red" --> <span>simpler</span>, <!-- .element: class="fragment highlight-red" --> and <span>more flexible</span>. <!-- .element: class="fragment highlight-red" -->
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## History Behind the Vision
+
+                        - Those desires, coupled with Taylor's .NET background, spawned the framework that would become Laravel.
+                        - He used the ideas of the .NET infrastructure which Microsoft had built and spent hundreds of millions of dollars of research on.
+                        - With Laravel, Taylor sought to create a framework that would be known for its simplicity.
+                          - He added to that simplicity by including an expressive syntax, clear structure, and incredibly thorough documentation.
+                        - With that, Laravel was born.
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## The Evolution of Laravel
+
+                        - Taylor started with a simple routing layer and a really simple controller-type interface (MVC)
+                          - `v1` and `v2` were released in June 2011 and September 2011 respectively, just months apart
+                        - In February 2012, Laravel `3` was released just over a year later and this is when Laravel's user base and popularity really began to grow.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## The Evolution of Laravel
+
+                        - In May 2013, Laravel `4` was released as a complete rewrite of the framework and incorporated a package manager called [Composer](https://getcomposer.org/). <!-- .element: data-preview-link="true" -->
+                        - Composer is an application-level package manager for PHP that allowed people to collaborate instead of compete.
+                        - Before Composer, there was no way to take two separate packages and use different pieces of those packages together to create a single solution.
+                        - Laravel is built on top of several packages most notably [Symfony](https://symfony.com/). <!-- .element: data-preview-link="true" -->
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                        ## Laravel Today
+
+                        - Laravel now stands at version `5.3` with `5.4` currently in development
+                        - Support for PHP `7` has recently been added to Laravel `4.2.20` and for the first version ever, long term support has been guaranteed for `5.1`
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Architecture
+
+                            - <span>**M**odel</span> <!-- .element: class="fragment highlight-current-red" -->
+                              - Everything database related - Eloquent ORM (Object Relational Mapper)
+                            - <span>**V**iew</span> <!-- .element: class="fragment highlight-current-red" -->
+                              - HTML structure - Blade templating engine
+                            - <span>**C**ontroller</span> <!-- .element: class="fragment highlight-current-red" -->
+                              - Processing requests and generating output
+
+                            <small>+ Facades, Dependency Injection, Repositories, etc...</small>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Firstly, Why Object Oriented PHP?
+
+                            - Logic is split into classes where each class has specific attributes and behaviours.
+                            - This leads to code that is <span>more maintainable</span>, <!-- .element: class="fragment highlight-red" --> <span>more predictable</span> <!-- .element: class="fragment highlight-red" --> and <span>simpler to test</span>. <!-- .element: class="fragment highlight-red" -->
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Routes
+
+                            - Routes (`/routes`) hold the application URLs
+                              - `web.php` for web routes
+                              - `api.php` for stateless requests
+                              - `console.php` for Artisan commands
+
+                            ```php
+                            // Visiting '/' will return 'Hello World!'
+                            Route::get('/', function()
+                            {
+                                return 'Hello World!';
+                            });
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```php
+                            Route::get('/tasks/{id}', 'TasksController@view');
+                            ```
+
+                            Visiting `/tasks/3` will call the controller method that deals with viewing that task that has an id of `3`
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```php
+                            Route::post('/tasks/add', 'TasksController@store');
+                            ```
+
+                            - Handles posting for data when creating a form
+                            - No need to check for `isset($_POST['input'])`
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Controllers
+
+                            Handle the logic required for processing requests
+
+                            ```php
+                            namespace App\Http\Controllers\Admin;
+
+                            class TasksController extends Controller
+                            {
+                                public function view($id)
+                                {
+                                    return "This is task " . $id;
+                                }
+                            }
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Enhanced controller
+
+                            <pre><code data-trim data-noescape contenteditable class="php">
+                            namespace App\Http\Controllers\Admin;
+
+                            class TasksController extends Controller
+                            {
+                                public function view($id)
+                                {
+                                    // Finds the task with 'id' = $id in the tasks table
+                                    $task = <mark>Task::find($id)</mark>;
+
+                                    // Returns a view with the task data
+                                    return View::make('tasks.view')->with(compact('task'));
+                                }
+                            }
+                            </code></pre>
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Models
+
+                            - Classes that are used to access the database
+
+                            A `Task` model would be tied to the `tasks` table in MySQL
+
+                            ```php
+                            namespace App\Models;
+
+                            use Illuminate\Database\Eloquent\Model;
+                            use Illuminate\Database\Eloquent\SoftDeletes;
+
+                            class Task extends Model
+                            {
+                                use SoftDeletes;
+
+                                protected $fillable = ['title', 'done',];
+                                protected $dates    = ['deleted_at'];
+
+                            }
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Queries
+
+                            ```php
+                            // Retrieves the tasks that have a high priority
+                            Task::where('priority', '=', 'high')->get();
+                            Task::wherePriority('high')->get(); // *Magic*!
+
+                            // Retrieves all the tasks in the database
+                            Task::all();
+
+                            // Retrieves a paginated view for tasks, 20 tasks per page
+                            Task::paginate(20);
+
+                            // Inserts a new task into the database
+                            Task::create(['description' => 'Buy milk']);
+
+                            // (Soft) deletes the task with an id of 5
+                            Task::find(5)->delete();
+
+                            // Permanently deletes all soft deleted tasks
+                            Task::onlyTrashed()->forceDelete();
+                            ```
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Views
+
+                            - Blade is a simple, yet powerful templating engine provided with Laravel
+
+                            ```php
+                            // This view uses the master layout
+                            @extends('layouts.master')
+
+                            @section('content')
+                                <p>This is my body content.</p>
+                            @stop
+
+                            @section('sidebar')
+                                <p>This is appended to the master sidebar.</p>
+                            @stop
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-background-image="https://i.imgur.com/Y99u616.gif"></section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```html
+                            @foreach($tasks as $task)
+                                <p>{{ $task->title }}</p>
+                            @endforeach
+                            ```
+
+                            =
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;?php foreach ($tasks as $task) {
+                                &lt;p&gt;&lt;?php echo $task->title ?>&lt;/p&gt;
+                            &lt;?php endforeach ?&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;p&gt;Tasks:&lt;/p&gt;
+                            &lt;table&gt;
+                                &lt;thead&gt;
+                                    &lt;tr&gt;
+                                        &lt;th&gt;ID&lt;/th&gt;
+                                        &lt;th&gt;Title&lt;/th&gt;
+                                    &lt;/tr&gt;
+                                &lt;/thead&gt;
+                                &lt;tbody&gt;
+                                    <mark>@foreach($tasks as $task)</mark>
+                                    <mark>&lt;tr&gt;</mark>
+                                        <mark>&lt;td&gt;{{ $task-&gt;id }}&lt;/td&gt;</mark>
+                                        <mark>&lt;td&gt;{{ $task-&gt;title }}&lt;/td&gt;</mark>
+                                    <mark>&lt;/tr&gt;</mark>
+                                    <mark>@endforeach</mark>
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Artisan
+
+                            - Artisan is the command-line interface included with Laravel
+                            - It provides a number of helpful commands that can assist you while you build your application
+
+                            ```sh
+                            $ php artisan list
+
+                            $ php artisan help migrate
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Data Migration and Seeding
+
+                            <pre><code data-trim data-noescape contenteditable class="sh">
+                            $ <mark>php artisan make:migration create_users_table</mark>
+                            Migration created successfully!
+
+                            $ <mark>php artisan migrate --seed</mark>
+                            Migrated: 2016_01_12_000000_create_users_table
+                            Migrated: 2016_01_12_100000_create_password_resets_table
+                            Migrated: 2016_01_13_162500_create_projects_table
+                            Migrated: 2016_01_13_162508_create_servers_table
+                            </code></pre>
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Key Changes in Laravel 5
+
+                            ### Directory Structure
+
+                            - Laravel `5` implements the [PSR-4](http://www.php-fig.org/psr/psr-4/) <!-- .element: data-preview-link="true" --> autoloading standard which means all your classes are namespaced
+                            - The default namespace for your web application is `app`
+                              - You can change this using `php artisan app:name <your-app-name>`
+                            - `assets`, `views`, and `lang` now live in a `resources` folder
+                            - `config`, `storage`, `database`, and `tests` directories have been moved to the root of the project
+                            - `bootstrap`, `public`, and `vendor` retain their place
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Key Changes in Laravel 5
+
+                            ### Environment Detection
+
+                            - Instead of all the complex nested configuration directories, you have a `.env` [(dotEnv)](https://github.com/vlucas/phpdotenv) file at the root of your project to take care of the application environment and all the environment variables.
+                            - It is useful to create a `.env.example` file to provide a template for other team members to follow
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Key Changes in Laravel 5
+
+                            ### Route Middleware
+
+                            - Middleware can be used to add extra layers to your HTTP routes.
+                            - If you want code to execute before every route or before specific routes in your application, then such a piece of code is a good fit for a middleware class.
+                            - For example, let's say you want to block out a certain range of IPs from your application to make your application unavailable in that region.
+                            - In such a case, you will need to check the client IP before every request and allow/disallow them entry to your application.
+
+                            <small>`$ php artisan make:middleware "RegionMiddleware"`</small>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Key Changes in Laravel 5
+
+                            ### Method Injection
+
+                            - Until version `4.2`, you had to request the Inversion of Control (IoC) container to provide a class instance or create it in your controller's constructor to make it accessible under the class scope.
+                            - Now, you can declare the type hinted class instance in the controller method's signature and the IoC container will take care of it, even if there are multiple parameters in your controller function's signature.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### Example of Method Injection
+
+                            <pre><code data-trim data-noescape contenteditable class="php">
+                            // TaskController.php
+
+                            namespace App\Http\Controllers\Admin;
+
+                            use App\Http\Controllers\Controller;
+                            use App\Http\Requests\Admin\TaskUpdateRequest;
+                            use App\Models\Task;
+
+                            class TaskController extends Controller {
+                                public function store(<mark>TaskUpdateRequest $request</mark>) {
+                                    $task = Task::create($request->except('_token'));
+                                    return redirect(route('admin.task.index'))->with('success',
+                                                    trans('general.created', ['what' => 'Task']));
+                                }
+                            }
+
+                            /**/
+
+                            class TaskUpdateRequest extends FormRequest {
+                                public function rules() {
+                                    return ['title' => 'required|min:3|unique:tasks,title',];
+                                }
+                            }
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Key Changes in Laravel 5
+
+                            ### Contracts
+
+                            - Contracts are actually interface classes in disguise.
+                            - Interfaces are a tried and tested method for removing class dependency and developing loosely coupled software components.
+                            - [Laravel buys into the same philosophy &#8690;](https://github.com/illuminate/contracts). <!-- .element: target="_blank" -->
+                              - Most of the major core components make use of these contracts to keep the framework loosely coupled.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Key Changes in Laravel 5
+
+                            ### Authentication
+
+                            - Authentication is part of almost all the web applications you develop, and a lot of time is spent writing the authentication boilerplate.
+                            - This is not the case any more with Laravel `5`. The database migrations, models, controllers, and views just need to be configured to make it all work.
+                            - Laravel `5` has a Registrar service, which is a crucial part of this out of the box, ready to use authentication system.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Other Key Changes in Laravel 5
+
+                            - Queue and Task Scheduling
+                              - Crons taken care of
+                            - Multiple File Systems
+                              - Local or remote (cloud based)
+                            - Route Caching
+                            - Events
+                            - Commands
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Laravel Elixir
+
+                            - [Laravel Elixir](https://laravel.com/docs/elixir) <!-- .element: data-preview-link="true" --> provides a fluent, expressive interface to compiling and concatenating your assets.
+                            - If you've ever been intimidated by learning Gulp or Grunt, fear no more.
+                            - Elixir makes it a cinch to get started using Gulp to compile Sass and other assets.
+                            - It can even be configured to run your tests
+
+                            <small>(Assumes `sass` is located at `resources/assets/sass`, etc.)</small>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```js
+                            // gulpfile.js
+
+                            const elixir             = require('laravel-elixir');
+                            elixir.config.publicPath = 'public_html/assets';
+
+                            require('laravel-elixir-vue-2');
+
+                            elixir(mix => {
+                                mix.sass('app.scss')
+                                   .webpack('app.js')
+                                   .copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/',
+                                         'public_html/assets/fonts/bootstrap');
+                            });
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ```js
+                            // Run all tasks and build your assets
+                            $ gulp
+
+                            // Run all tasks and minify all CSS and JavaScript
+                            $ gulp --production
+
+                            // Watch your assets for any changes - re-build when required
+                            $ gulp watch
+                            ```
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## [Laravel Starter &#8690;](https://github.com/uofa/laravel-starter) <!-- .element: target="_blank" -->
+
+                        - Created specifically to speed up development at UofA
+                        - Improved version of Laravel `4.1` with backported enhancements from `4.2`
+                          - This was due to the version of PHP (`5.3.8`) we previously had to use
+                        - Has code specific for the way we have to work with web accounts
+                          - Configured to use `public_html` rather than `public`
+                          - LDAP integration complete with configuration for `abdn.ac.uk`
+                          - Enhanced String and Array helpers
+                          - UofA logos
+                          - etc.
+                        - Currently in the process of updating for Laravel `5.3`
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Laravel Has More Up Its Sleeve
+
+                            ### Standalone Services
+
+                            - [Forge](https://forge.laravel.com/) <!-- .element: data-preview-link="true" -->
+                              - Provision and deploy unlimited PHP applications on DigitalOcean, Linode, and AWS
+                            - [Spark](https://spark.laravel.com/) <!-- .element: data-preview-link="true" -->
+                              - A package that provides scaffolding for subscription billing, invoices, etc.
+                            - [Envoyer](https://envoyer.io/) <!-- .element: data-preview-link="true" -->
+                              - A deployment service focused on the deployment side of applications and includes things like zero downtime deploys, health checks, cron job monitoring, and more
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Laravel Has More Up Its Sleeve
+
+                            ### Baked into Laravel 5
+
+                            - [Laravel Echo](https://laravel.com/docs/5.3/broadcasting#installing-laravel-echo) <!-- .element: data-preview-link="true" -->
+                              - Event broadcasting, evolved. Bring the power of WebSockets to your application without the complexity.
+                            - [Laravel Passport](https://laravel.com/docs/5.3/passport) <!-- .element: data-preview-link="true" -->
+                              - API authentication without the headache. Passport is an OAuth2 server that's ready in minutes.
+                            - [Laravel Scout](https://laravel.com/docs/5.3/scout) <!-- .element: data-preview-link="true" -->
+                              - Driver based full-text search for Eloquent, complete with pagination and automatic indexing.
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Laravel Has More Up Its Sleeve
+
+                            ### Other Development Tools
+
+                            - [Homestead](https://laravel.com/docs/homestead) <!-- .element: data-preview-link="true" -->
+                              - Powered by Vagrant, Homestead gets your entire team on the same page with the latest PHP, MySQL, Postgres, Redis, and more.
+                            - [Cachet](https://cachethq.io/) <!-- .element: target="_blank" -->
+                              - Cachet is the best way to inform customers of downtime. This is your status page.
+                            - [Lumen](https://lumen.laravel.com/) <!-- .element: data-preview-link="true" -->
+                              - If all you need is an API and lightning fast speed, try Lumen. It's Laravel smaller-light.
+                            - [Statamic](https://statamic.com/) <!-- .element: data-preview-link="true" -->
+                              - Need a CMS that runs on Laravel and is built for developers and clients? Look no further.
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## More Resources
+
+                        - [https://laravel.com/](https://laravel.com) <!-- .element: data-preview-link="true" -->
+                        - [https://laracasts.com/](https://laracasts.com) <!-- .element: data-preview-link="true" -->
+                          - Over 900 videos covering all aspects of using Laravel
+                    </script>
+                </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+                loop: true,
+                mouseWheel: true,
+                slideNumber: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
