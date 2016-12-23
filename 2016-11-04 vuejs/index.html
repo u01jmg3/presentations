@@ -1,0 +1,625 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Vue.js &middot; Developer Day 4 Nov '16</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <style>
+            .reveal li    { font-size: .9em }
+            .reveal li li { font-size: .8em }
+
+            .reveal li:not(:last-child){ margin-bottom: 8px }
+
+            .reveal section img {
+                border: none;
+                box-shadow: none;
+            }
+
+            /* Theme */
+
+            ::selection {
+                color: rgb(53, 73, 94);
+                background: rgb(65, 184, 131);
+            }
+
+            .reveal a:not(.external):not(.close) {
+                color: rgb(65, 184, 131);
+                border-bottom: 1px dashed rgb(65, 184, 131);
+            }
+
+            .reveal a:hover {
+                color: rgb(53, 73, 94);
+                border-bottom: 1px dashed rgb(53, 73, 94);
+            }
+
+            .reveal .slide-number {
+                color: rgb(65, 184, 131);
+                background-color: rgb(53, 73, 94);
+            }
+
+            .reveal .progress span { background: rgb(65, 184, 131) }
+
+            .reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled {
+                border-right-color: rgb(65, 184, 131);
+            }
+
+            .reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled {
+                border-left-color: rgb(65, 184, 131);
+            }
+
+            .reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled {
+                border-bottom-color: rgb(65, 184, 131);
+            }
+
+            .reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled {
+                border-top-color: rgb(65, 184, 131);
+            }
+
+            .reveal .controls .navigate-left.enabled,
+            .reveal .controls .navigate-right.enabled,
+            .reveal .controls .navigate-up.enabled,
+            .reveal .controls .navigate-down.enabled { opacity: .6 }
+
+                /* onHover */
+
+                .reveal .controls .navigate-left.enabled:hover {
+                    border-right-color: rgb(65, 184, 131);
+                    opacity: 1;
+                }
+
+                .reveal .controls .navigate-right.enabled:hover {
+                    border-left-color: rgb(65, 184, 131);
+                    opacity: 1;
+                }
+
+                .reveal .controls .navigate-up.enabled:hover {
+                    border-bottom-color: rgb(65, 184, 131);
+                    opacity: 1;
+                }
+
+                .reveal .controls .navigate-down.enabled:hover {
+                    border-top-color: rgb(65, 184, 131);
+                    opacity: 1;
+                }
+
+            .reveal .controls div { opacity: 0.15 }
+
+            .reveal .viewport iframe { background: #fff }
+
+            .reveal .navigate-down.enabled {
+                animation: pulsate 1s ease-out;
+                animation-iteration-count: infinite;
+                animation-delay: 1s;
+                transition: all 1s ease-out;
+            }
+            @keyframes pulsate {
+                0%   { margin-top: -6px; opacity: 0; }
+                50%  { margin-top: 0;    opacity: 1; }
+                100% { margin-top: -2px; opacity: 0; }
+            }
+
+            .reveal .slides section .fragment.highlight-green.visible,
+            .reveal .slides section .fragment.highlight-green.current-fragment,
+            .reveal .slides section .fragment.highlight-current-green.current-fragment { color: rgb(65, 184, 131) }
+
+            /* Code Highlighting */
+
+            .reveal pre { width: 100% }
+
+            .reveal pre code {
+                padding: 30px;
+                max-height: 520px;
+            }
+
+            .reveal code {
+                color: rgb(65, 184, 131);
+                background-color: rgba(65, 184, 131, .1);
+                padding-left: 2px;
+                padding-right: 2px;
+            }
+
+            .hljs-name,
+            .hljs-title    { color: #ff5b4c }
+            .hljs-keyword,
+            .hljs-literal,
+            .hljs-type     { color: #d6b855 }
+            .hljs-attribute,
+            .hljs-tag,
+            .hljs-variable { color: #dbb06a }
+        </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <section data-markdown>
+                    <script type="text/template">
+                        # Why Vue.js?
+
+                        _&#8220;The Progressive JavaScript Framework&#8221;_
+
+                        ![Vue.js logo](https://i.imgur.com/4EjXWrn.png "Vue.js logo")
+
+                        Introduction to Vue.js
+
+                        <small>Jonathan Goode</small>
+                    </script>
+                </section>
+
+                    <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## What is Vue.js?
+
+                            - <span>Vue (pronounced /vjuː/, like **view**) is a progressive framework for building user interfaces</span> <!-- .element: class="fragment highlight-current-green" data-fragment-index="1" -->
+                            - The core library is focused on the view layer only <!-- .element: class="fragment highlight-current-green" data-fragment-index="2" -->
+                            - <span>The library was created by [Evan You](http://evanyou.me/) <!-- .element: data-preview-link="true" --> who released `v1` on 26 October 2015</span> <!-- .element: class="fragment highlight-current-green" data-fragment-index="3" -->
+                            - <span>The project is permanently backed by pledgers on [Patreon.com](https://www.patreon.com/evanyou) <!-- .element: target="_blank" --></span> <!-- .element: class="fragment highlight-green" data-fragment-index="4" -->
+                              - $7,572 (~£6,145) per month <!-- .element: class="fragment highlight-green" data-fragment-index="4" -->
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Who Uses Vue?
+
+                            |Rank|Site         |Detections|
+                            |----|-------------|---------:|
+                            |1st |laravel.com  |    49,476|
+                            |2nd |laracasts.com|    29,185|
+                            |3rd |gitlab.com   |    26,522|
+                            |8th |codeship.com |     3,069|
+
+                            <small>[Detections by Wappalyzer in the last 7 days](https://wappalyzer.com/applications/vuejs) <!-- .element: data-preview-link="true" --></small>
+
+                            ### Internation Adoption
+
+                            - China: Alibaba and Baidu, Japan: Nintendo and UK: Sainsbury's
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Using Vue
+
+                            - Getting started with Vue.js is extremely easy <!-- .element: class="fragment highlight-current-green" -->
+                            - Its source code is very readable, and the documentation is the only tutorial you will need <!-- .element: class="fragment highlight-current-green" -->
+                            - You don't need external libraries <!-- .element: class="fragment highlight-current-green" -->
+                              - You can use it with or without jQuery
+                            - You won't even need to install any plugins, though many are available <!-- .element: class="fragment highlight-current-green" -->
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Using Vue
+
+                            - Hooking Vue up to existing code is very straightforward <!-- .element: class="fragment highlight-current-green" -->
+                            - Vue makes no assumptions about your code <!-- .element: class="fragment highlight-current-green" -->
+                              - It really only assumes that your data will change
+                            - Real-life usage is as simple as the docs demonstrate it to be <!-- .element: class="fragment highlight-current-green" -->
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Performance
+
+                            <small>Vue.js 2.0 was released on Sep 30 - current release is `v2.0.3` - 16kb min+gzip</small>
+
+                            ![Performance](http://imgur.com/MQ1Mg2n.png "Performance")
+
+                            <small>Based on [3rd party benchmark](http://stefankrause.net/js-frameworks-benchmark4/webdriver-ts/table.html), <!-- .element: data-preview-link="true" --> lower is better</small>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Vue.js 2.0
+
+                            - The rendering layer has been rewritten using a light-weight Virtual DOM implementation forked from [snabbdom](https://github.com/snabbdom/snabbdom). <!-- .element: target="_blank" -->
+                            - On top of that, Vue's template compiler is able to apply some smart optimizations during compilation, such as analyzing and hoisting static sub trees to avoid unnecessary diffing on re-render.
+                            - The new rendering layer provides significant performance improvements compared to `v1`, and makes Vue `2.0` one of the fastest frameworks.
+                            - In addition, it requires minimal effort in terms of optimization because Vue's reactivity system is able to precisely determine components that need to be re-rendered in a large and complex component tree.
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Vue and Conditional Logic
+                            ### `v-if` / `v-else`
+
+                            ```js
+                            // JavaScript
+                            var example = new Vue({
+                                el:   '.example',
+                                data: { cond: (1 > 0), }, // true
+                            });
+                            ```
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            <!-- HTML -->
+                            &lt;div class="example"&gt;
+                                &lt;div <mark>v-if</mark>="cond"&gt;Yes&lt;/div&gt;
+                                &lt;div <mark>v-else</mark>&gt;No&lt;/div&gt;
+                            &lt;/div&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### `v-show`
+
+                            ```js
+                            // JavaScript
+                            var example = new Vue({
+                                el:   '.example',
+                                data: { cond: (1 > 0), }, // true
+                            });
+                            ```
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;!-- HTML --&gt;
+                            &lt;div class="example"&gt;
+                                &lt;div <mark>v-show</mark>="cond"&gt;Yes&lt;/div&gt;
+                                &lt;div <mark>v-show</mark>="!cond"&gt;No&lt;/div&gt;
+                            &lt;/div&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### With a Template
+
+                            ```html
+                            <!-- HTML -->
+                            <template v-if="cond">
+                                <h1>Title</h1>
+                                <p>Paragraph 1</p>
+                                <p>Paragraph 2</p>
+                            </template>
+                            ```
+
+                            =
+
+                            ```html
+                            <!-- HTML -->
+                            <h1>Title</h1>
+                            <p>Paragraph 1</p>
+                            <p>Paragraph 2</p>
+                            ```
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### `v-for`
+
+                            ```js
+                            // JavaScript
+                            var example = new Vue({
+                                el:   '.example',
+                                data: { items: { message: 'Foo' }, { message: 'Bar' }, },
+                            });
+                            ```
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;!-- HTML --&gt;
+                            &lt;ul class="example"&gt;
+                                &lt;li <mark>v-for</mark>="item in items"&gt;{{ item.message }}&lt;/li&gt;
+                            &lt;/ul&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### `v-for` using an object
+
+                            ```js
+                            // JavaScript
+                            var example = new Vue({
+                                el:   '.example',
+                                data: { object: FirstName: 'Jonathan', LastName: 'Goode', Age: 30, },
+                            });
+                            ```
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;!-- HTML --&gt;
+                            &lt;ul class="example"&gt;
+                                &lt;li <mark>v-for</mark>="value in object"&gt;{{ $key }}: {{ value }}&lt;/li&gt;
+                            &lt;/ul&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### `v-for` using a range
+
+                            ```js
+                            // JavaScript
+                            var example = new Vue({
+                                el: '.example',
+                            });
+                            ```
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;!-- HTML --&gt;
+                            &lt;ul class="example"&gt;
+                                &lt;li <mark>v-for</mark>="n in 10"&gt;{{ n }}&lt;/li&gt;
+                            &lt;/ul&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### `v-for` using a filter
+
+                            - What will the output be? <!-- .element: class="fragment highlight-green fade-up" -->
+
+                            ```js
+                            // JavaScript
+                            var example = new Vue({
+                                el:   '.example',
+                                data: { array: [2, 4, 6, 8, 10,], },
+                            });
+                            ```
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;!-- HTML --&gt;
+                            &lt;ul class="example"&gt;
+                                &lt;li <mark>v-for</mark>="n in array | limitBy 3"&gt;{{ n }}&lt;/li&gt;
+                            &lt;/ul&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Vue and Event Handling
+
+                        ```html
+                        <!-- HTML -->
+                        <a v-on:click="doSomething">Link</a>
+                        <a @click="doSomething">Link</a><!-- shorthand syntax -->
+
+                        // Modifiers
+                        <!-- with event.preventDefault() -->
+                        <a @click.prevent="doSomething">Link</a>
+
+                        <!-- with event.stopPropagation() -->
+                        <a @click.stop="doSomething">Link</a>
+
+                        <!-- with event.preventDefault() and event.stopPropagation() -->
+                        <a @click.stop.prevent="doSomething">Link</a>
+                        ```
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Vue and Laravel
+
+                        ```js
+                        // JavaScript - for Laravel (requires jQuery)
+                        Vue.http.headers.common['X-CSRF-TOKEN'] =
+                        $('meta[name="csrf-token"]').attr('content');
+                        ```
+
+                        <pre><code data-trim data-noescape contenteditable class="php">
+                        // PHP - escape Blade syntax
+                        <mark>@</mark>{{ item.message }}
+                        </code></pre>
+
+                        <small>(Recommended Combination)</small>
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Installing Vue
+
+                        - `package.json`
+
+                        ```json
+                        "dependencies": {
+                          "vue": "*"
+                        }
+                        ```
+
+                        - Run `npm`
+
+                        ```sh
+                        $ npm install
+                        ```
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Vue Explained
+
+                        ### [Hello World Example &#8690;](https://codepen.io/u01jmg3/full/rMEVrR/) <!-- .element: data-preview-link="true" -->
+
+                        - The data for the view goes in an object called `data`
+                          - This can get there and look however you want
+                        - Functions are written as callbacks that go into a `methods` object
+                          - They can do or return whatever you want
+
+                        <pre><code data-trim data-noescape contenteditable>
+                        var journal = new Vue({
+                            el: '.journal',
+                            <mark>data: { message: 'Hello World' }</mark>, <mark>methods: { }</mark>,
+                        });
+                        </code></pre>
+
+                        <pre><code data-trim data-noescape contenteditable class="html">
+                        &lt;div class="journal"&gt;
+                            &lt;input type="text" <mark>v-model="message"</mark>&gt;&lt;pre&gt;{{ message | json }}&lt;/pre&gt;
+                        &lt;/div&gt;
+                        </code></pre>
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ### [Input Counter Example &#8690;](https://homepages.abdn.ac.uk/wmm168/medicine/mmi/admin/exam/1/edit/station/1/edit/question/1) <!-- .element: target="_blank" -->
+
+                        <pre><code data-trim data-noescape contenteditable class="js">
+                        // JavaScript
+                        new Vue({
+                            el:      '.question-text',
+                            data:    { questions: [{ question_text: '', }], },
+                            methods: { <mark>getLength</mark>: function(key){
+                                return mb_strlen(this.questions[0][key]);
+                            }, },
+                        });
+                        </code></pre>
+
+                        <pre><code data-trim data-noescape contenteditable class="html">
+                        &lt;!-- HTML --&gt;
+                        &lt;small v-bind:class="{ 'red': getLength('question_text') &gt; 499 }"
+                               v-cloak class="pull-right"&gt;Characters:
+                            &lt;span v-bind:class="{'text-embolden': getLength('question_text') &gt; 500}"&gt;
+                                @{{ <mark>getLength</mark>('question_text') }}
+                            &lt;/span&gt; / 500
+                        &lt;/small&gt;
+                        </code></pre>
+                    </script>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Vue Directives
+
+                            <small>Custom directives provide a mechanism for mapping data changes to arbitrary DOM behaviour</small>
+                            <small>[`"seiyria-bootstrap-slider": "7.0.3"`](http://seiyria.com/bootstrap-slider/) <!-- .element: data-preview-link="true" --></small>
+
+                            <pre><code data-trim data-noescape contenteditable class="js">
+                            Vue.directive('slider', {
+                                <mark>bind</mark>: function(){ <mark>/* do preparation work */</mark>
+                                    var vm  = this.vm;
+                                    var key = this.expression;
+
+                                    var slider = $(this.el).slider()
+                                        .on('change', function(ev){ vm.$set(key, ev.value.newValue); })
+                                        .data('slider');
+                                },
+                                <mark>update</mark>: function(val){ <mark>/* do something based on initial/updated value */</mark>
+                                    val = parseFloat(val);
+                                    if(!isNaN(val)){ $(this.el).slider('setValue', val); }
+                                },
+                                <mark>unbind</mark>: function(){ <mark>/* do clean up work */</mark> },
+                            });
+                            </code></pre>
+                        </script>
+                    </section>
+
+                    <section data-markdown>
+                        <script type="text/template">
+                            ### [Slider Example &#8690;](https://homepages.abdn.ac.uk/wmm168/medicine/mmi/admin/exam/1/edit/station/1) <!-- .element: target="_blank" -->
+
+                            <pre><code data-trim data-noescape contenteditable class="js">
+                            // JavaScript
+                            new Vue({
+                                el:   '.form-alerts',
+                                data: <mark>alerts</mark>: [{ id: '', alert_message: '', <mark>alert_time</mark>: '' }],
+                            });
+                            </code></pre>
+
+                            <pre><code data-trim data-noescape contenteditable class="html">
+                            &lt;!-- HTML --&gt;
+                            &lt;template v-for="alert in alerts"&gt;
+                                &lt;input
+                                    class="form-control station-alert-time"
+                                    name="station_alert_time"
+                                    type="text"
+                                    <mark>v-slider="alerts[$index].alert_time"</mark>
+                                    <mark>v-model="alerts[$index].alert_time"</mark>
+                                    data-slider-min="0.5"
+                                    data-slider-max="5"
+                                    data-slider-step="0.5"
+                                    data-slider-value="2.5"&gt;
+                            &lt;/template&gt;
+                            </code></pre>
+                        </script>
+                    </section>
+                </section><!-- * -->
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Vue Plugins
+
+                        - [VueResource](https://github.com/vuejs/vue-resource) <!-- .element: target="_blank" -->
+                          - Provides services for making web requests and handling responses using an XMLHttpRequest or JSONP
+                        - [VueRouter](https://github.com/yyx990803/vue-resource) <!-- .element: target="_blank" -->
+                          - The HTTP client for Vue.js
+                        - [VueX](https://github.com/vuejs/vuex) <!-- .element: target="_blank" -->
+                          - Centralised State Management for Vue.js
+                          - Similar to (Re)Flux for React
+                        - [VueStrap](https://yuche.github.io/vue-strap/) <!-- .element: data-preview-link="true" -->
+                          - Bootstrap components built with Vue.js
+                          - No jQuery, bootstrap.js, or any third party plugins required
+                    </script>
+                </section>
+
+                <section data-markdown>
+                    <script type="text/template">
+                        ## More Resources
+
+                        - [https://vuejs.org](https://vuejs.org) <!-- .element: data-preview-link="true" -->
+                        - [https://github.com/vuejs/vue](https://github.com/vuejs/vue) <!-- .element: target="_blank" -->
+                        - [Vue.js DevTools - Chrome Extension](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) <!-- .element: target="_blank" -->
+                    </script>
+                </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+                loop: true,
+                mouseWheel: true,
+                slideNumber: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
